@@ -1,11 +1,12 @@
 #!/bin/bash
 
 # Hugh Brown
-# Nov 2, 2006
+# Nov 24, 2013
 #
-# bash_template.sh:  A Small but Useful(tm) utility to foo the right bar.
+# measie: A Small but Useful(tm) utility to convert a bunch of web
+# pages to an epub file, very badly.
 #
-# Copyright (C) 2012 Hugh Brown
+# Copyright (C) 2013 Hugh Brown
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -21,16 +22,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330,
 # Boston, MA 02111-1307, USA.
-#
-# $Id$
-# $URL$
 
 # Much help with parsing args from:
 # http://rsalveti.wordpress.com/2007/04/03/bash-parsing-arguments-with-getopts/
+#
+# The name came from the Javascript project name generator:
+# http://mrsharpoblunto.github.io/foswig.js/
 
 usage() {
     cat << EOF
-$0: A Small but Useful(tm) utility to foo the right bar.
+$0: A Small but Useful(tm) utility to convert a bunch of web pages to
+an epub file, very badly.
 
 usage: $0 options
 
