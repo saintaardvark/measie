@@ -8,3 +8,8 @@ conversion tools.  Many thanks to the [Javascript project name
 generator](http://mrsharpoblunto.github.io/foswig.js/) for the name.
 
 License:  [GPLv3](https://www.gnu.org/licenses/quick-guide-gplv3.html).
+
+This utility can be found at:
+
+* http://git.saintaardvarkthecarpeted.com
+* https://github.com/saintaardvark/measie
