@@ -40,7 +40,8 @@ OPTIONS:
 
    -u [arg]	URL list, one per line.
    -t [title]	Title.
-   -v		Verbose.
+   -i [img]	Cover image (optional).
+   -d		Debugging output.
    -h		This helpful message.
 EOF
     exit 1
@@ -54,11 +55,13 @@ complain_and_die() {
 URLLIST=
 TITLE=
 VERBOSE=
-while getopts "u:t:vh" OPTION ; do
+COVER=
+while getopts "u:t:i:vh" OPTION ; do
      case $OPTION in
          u) URLLIST=$OPTARG ;;
          t) TITLE=$OPTARG ;;
-         v) VERBOSE=1 ;;
+         d) set -x ;;
+	 i) COVER="--cover=${OPTARG} --preserve-cover-aspect-ratio" ;;
          h) usage ;;
          ?) usage ;;
      esac
@@ -82,5 +85,5 @@ grep ^http $URLLIST | while read url ; do
 done
 # This is very, very bad.
 (echo "<html><head><title>Devops Weekly</title></head><body>"; sed -ne'/<body/,/<\/body>/p' chapter_??.html | sed -e's|^.*<body.*$$|<h1>|i ; s|^.*</body.*$$|</h1>|i'; echo "</body></html>") > ${OUTPUT}.html
-ebook-convert ${OUTPUT}.html ${OUTPUT}.epub  --output-profile=kobo --title="$TITLE" --authors="A Cast of Thousands" --cover="devops_weekly_cover.jpg" --preserve-cover-aspect-ratio
+ebook-convert ${OUTPUT}.html ${OUTPUT}.epub  --output-profile=kobo --title="$TITLE" --authors="A Cast of Thousands" $COVER
 ebook-viewer ${OUTPUT}.epub
