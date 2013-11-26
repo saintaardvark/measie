@@ -80,11 +80,10 @@ OUTPUT=$(echo $TITLE | tr " " "_")
 
 grep ^http $URLLIST | while read url ; do
     output=$(printf "chapter_%02d.html" $chapter)
-    wget -O $output $url
     wget -O $output '$url'
     chapter=$(expr $chapter + 1)
 done
 # This is very, very bad.
-(echo "<html><head><title>Devops Weekly</title></head><body>"; sed -ne'/<body/,/<\/body>/p' chapter_??.html | sed -e's|^.*<body.*$$|<h1>|i ; s|^.*</body.*$$|</h1>|i'; echo "</body></html>") > ${OUTPUT}.html
+(echo "<html><head><title>$TITLE</title></head><body>"; sed -ne'/<body/,/<\/body>/p' chapter_??.html | sed -e's|^.*<body.*$$|<h1>|i ; s|^.*</body.*$$|</h1>|i'; echo "</body></html>") > ${OUTPUT}.html
 ebook-convert ${OUTPUT}.html ${OUTPUT}.epub  --output-profile=kobo --title="$TITLE" --authors="A Cast of Thousands" $COVER
 ebook-viewer ${OUTPUT}.epub
