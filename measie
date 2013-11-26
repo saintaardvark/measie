@@ -80,7 +80,7 @@ OUTPUT=$(echo $TITLE | tr " " "_")
 
 grep ^http $URLLIST | while read url ; do
     output=$(printf "chapter_%02d.html" $chapter)
-    wget -O $output '$url'
+    wget -O $output "$url"
     chapter=$(expr $chapter + 1)
 done
 # This is very, very bad.
