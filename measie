@@ -41,6 +41,7 @@ OPTIONS:
    -u [arg]	URL list, one per line.
    -t [title]	Title.
    -i [img]	Cover image (optional).
+   -r 		Rebuild using already-downloaded HTML.
    -d		Debugging output.
    -h		This helpful message.
 EOF
@@ -56,11 +57,13 @@ URLLIST=
 TITLE=
 VERBOSE=
 COVER=
-while getopts "u:t:i:vh" OPTION ; do
+REBUILD=0
+while getopts "u:t:i:rvh" OPTION ; do
      case $OPTION in
          u) URLLIST=$OPTARG ;;
          t) TITLE=$OPTARG ;;
          d) set -x ;;
+         r) REBUILD=1 ;;
 	 i) COVER="--cover=${OPTARG} --preserve-cover-aspect-ratio" ;;
          h) usage ;;
          ?) usage ;;
@@ -78,11 +81,14 @@ fi
 chapter=1
 OUTPUT=$(echo $TITLE | tr " " "_")
 
-grep ^http $URLLIST | while read url ; do
-    output=$(printf "chapter_%02d.html" $chapter)
-    wget -O $output "$url"
-    chapter=$(expr $chapter + 1)
-done
+if [ $REBUILD -eq 0 ] ; then
+    grep ^http $URLLIST | while read url ; do
+        output=$(printf "chapter_%02d.html" $chapter)
+        wget -O $output "$url"
+        chapter=$(expr $chapter + 1)
+    done
+    (echo "<html><head><title>$TITLE</title></head><body><h1>Table of Contents</h1><ul>"; for i in chapter*.html ; do echo "<li><a href=\"$i\">$i</a></li>"; done ; echo "</ul></body></html>") > ${OUTPUT}.html
+fi
 # This is very, very bad.
 (echo "<html><head><title>$TITLE</title></head><body>"; sed -ne'/<body/,/<\/body>/p' chapter_??.html | sed -e's|^.*<body.*$$|<h1>|i ; s|^.*</body.*$$|</h1>|i'; echo "</body></html>") > ${OUTPUT}.html
 ebook-convert ${OUTPUT}.html ${OUTPUT}.epub  --output-profile=kobo --title="$TITLE" --authors="A Cast of Thousands" $COVER
