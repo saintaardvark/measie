@@ -74,7 +74,7 @@ done
 if [ -z $URLLIST ]; then
      usage
 fi
-if [ -z $TITLE ]; then
+if [ -z "$TITLE" ]; then
      usage
 fi
 
