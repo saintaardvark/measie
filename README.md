@@ -23,9 +23,10 @@ measie is relased under the [GPLv3](https://www.gnu.org/licenses/quick-guide-gpl
 
 ## TODO
 
+* Trim trailing whitespace from URLs.
 * Use proper HTML parsing, which probably means a rewrite in
   Perl/Python/ruby/etc.
-* Optionally, use Calibre's recipes!  
+* Optionally, use Calibre's recipes!
 * Option to include images from web pages -- and probably just larger
   ones, on the assumption that they're illustrations and not decorations.
 
